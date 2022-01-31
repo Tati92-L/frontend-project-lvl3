@@ -1,3 +1,4 @@
 import './style.scss';
+import app from './view.js';
 
-console.log('Hi!');
+app();
