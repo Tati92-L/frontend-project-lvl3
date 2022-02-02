@@ -1,28 +1,72 @@
+/* eslint-disable quote-props */
 import onChange from 'on-change';
-import { object, string } from 'yup';
+import { setLocale, object, string } from 'yup';
+import getMessage from './messages.js';
 
-const handleErrors = () => {
+const handleErrors = (error) => {
   const inputEl = document.getElementById('rss-input');
-  inputEl.classList.toggle('is-invalid');
+  inputEl.classList.remove('is-invalid');
+  if (error) {
+    inputEl.classList.add('is-invalid');
+  }
   inputEl.focus();
 };
 
+const handleFeedback = ({ processState, key }) => {
+  const cardEl = document.querySelector('.card');
+  let pEl;
+  if (!document.querySelector('.feedback')) {
+    pEl = document.createElement('p');
+    pEl.classList.add('feedback');
+  } else {
+    pEl = document.querySelector('.feedback');
+    pEl.removeAttribute('class');
+  }
+  switch (processState) {
+    case 'sent':
+      handleErrors(false);
+      pEl.classList.add('text-success', 'feedback');
+      break;
+    case 'error':
+      handleErrors(true);
+      pEl.classList.add('text-danger', 'feedback');
+      break;
+    default:
+      throw new Error('Неизвестная ошибка');
+  }
+  pEl.textContent = getMessage(key);
+  cardEl.append(pEl);
+};
+
 const app = () => {
-  const userSchema = object({
-    value: string().url().nullable(),
+  setLocale({
+    string: {
+      url: 'url',
+    },
   });
+  const userSchema = object().shape({
+    value: string().url(),
+  });
+
+  const inputEl = document.getElementById('rss-input');
+  inputEl.focus();
+
+  // .then(function (t) {
+  //   // initialized and ready to go!
+  //   document.getElementById('output').innerHTML = i18next.t('key');
+  // });
 
   const state = {
     registrationForm: {
-      valid: true,
-      errors: null,
-      results: [],
+      mesagges: null,
+      processState: 'filling',
     },
+    results: [],
   };
 
   const watchedState = onChange(state, (path, value) => {
-    if (path === 'registrationForm.errors') {
-      handleErrors(value);
+    if (path === 'registrationForm') {
+      handleFeedback({ processState: value.processState, key: value.mesagges });
     }
   });
 
@@ -33,17 +77,18 @@ const app = () => {
     const formData = new FormData(e.target);
     const value = formData.get('rss');
 
-    if (!state.registrationForm.results.includes(value)) {
+    if (!state.results.includes(value)) {
       try {
         userSchema.validateSync({ value });
-        watchedState.registrationForm.results.push(value);
-        watchedState.registrationForm.errors = null;
+        watchedState.results.push(value);
+        watchedState.registrationForm = { mesagges: 'success', processState: 'sent' };
         formEl.reset();
       } catch (err) {
-        watchedState.registrationForm.errors = 'Не правильный формат запроса';
+        const [mesagges] = err.errors;
+        watchedState.registrationForm = { mesagges, processState: 'error' };
       }
     } else {
-      watchedState.registrationForm.errors = 'RSS уже существует';
+      watchedState.registrationForm = { mesagges: 'repeatError', processState: 'error' };
     }
 
     // const fetching = (value) => {
