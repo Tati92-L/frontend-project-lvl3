@@ -7,18 +7,42 @@
     <title>Document</title>
   </head>
   <body>
-    <section>
-      <div class="container">
-        <h1>Начните читать RSS сегодня! Это легко, это красиво.</h1>
-        <div class="card p-3">
-          <h2 class="mt-0">RSS агрегатор</h2>
-          <form class="form">
-            <div class="input-group mt-3">
-              <input type="text" id="rss-input" name="rss" class="form-control" placeholder="RSS name" aria-describedby="button" />
-              <button class="btn btn-primary" type="submit" id="button">Добавить</button>
+    <section class="container-fluid bg-dark p-5">
+      <div class="row">
+        <div class="card-main col-md-10 col-lg-8 mx-auto text-white">
+          <h1 class="display-3 mb-0">RSS агрегатор</h1>
+          <p>Начните читать RSS сегодня! Это легко, это красиво.</p>
+            <form class="rss-form text-body">
+              <div class="row">
+                <div class="input-group mt-3">
+                  <div class="col">
+                    <div class="form-floating">
+                      <input id="url-input" type="text" name="url" class="rss-input form-control w-100" placeholder="Ссылка RSS" aria-describedby="button"/>
+                      <label for="url-input">Ссылка RSS</label>
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <button type="submit" aria-label="add" class="h-100 btn btn-lg btn-primary px-sm-5" id="button">Добавить</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <p>Пример: https://ru.hexlet.io/lessons.rss</p>
+        </div>
+      </div>
+    </section>
+    <section class="container-fluid container-xxl p-5">
+      <div class="row">
+        <div class="col-md-10 col-lg-8 order-1 mx-auto posts">
+          <div class="card border-0 div-posts">
+            <div class="card-body title-posts"></div>
+          </div>
+        </div>
+        <div class="col-md-10 col-lg-4 mx-auto order-0 order-lg-1 feeds">
+          <div class="card border-0 div-feeds">
+            <div class="card-body title-feeds">
             </div>
-          </form>
-          <p>Пример: https://ru.hexlet.io/lessons.rss</p>
+          </div>
         </div>
       </div>
     </section>
