@@ -95,6 +95,7 @@
     "kind-of": "^6.0.3",
     "loader-runner": "^4.2.0",
     "locate-path": "^5.0.0",
+    "lodash": "^4.17.21",
     "merge-stream": "^2.0.0",
     "mime-db": "^1.51.0",
     "mime-types": "^2.1.34",

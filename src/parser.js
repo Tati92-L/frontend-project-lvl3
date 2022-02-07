@@ -5,7 +5,7 @@ const parsingFunc = (string) => {
   const parseError = doc.querySelector('parsererror');
   if (parseError) {
     const error = new Error('Parser Error');
-    return error;
+    throw error;
   }
 
   const feedHeader = doc.querySelector('channel > title').textContent;

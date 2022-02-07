@@ -1,5 +1,6 @@
 import { setLocale, object, string } from 'yup';
 import axios from 'axios';
+import _ from 'lodash';
 import parsingFunc from './parser.js';
 import onChangeState from './view.js';
 
@@ -16,26 +17,61 @@ const state = {
 };
 const watchedState = onChangeState(state);
 
+// const postsDif = (oldPosts, newPosts) => {
+//   const tryDiff = _.difference(newPosts, oldPosts);
+//   const changes = newPosts
+//     .filter((newPost) => oldPosts
+//       .filter((oldPost) => !_.isEqual(oldPost, newPost)));
+//   console.log('c&d', tryDiff, '\nc \n', changes);
+//   return changes;
+// };
+
+const getProxyUrl = (url) => {
+  const corsProxyUrl = new URL('/get', 'https://hexlet-allorigins.herokuapp.com');
+  corsProxyUrl.searchParams.set('disableCache', 'true');
+  corsProxyUrl.searchParams.set('url', url);
+  return corsProxyUrl.toString();
+};
+
 const rssGetter = (link) => {
   axios
-    .get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(link)}`)
+    .get(getProxyUrl(link))
     .then((response) => {
       if (response.status === 200) return response.data;
-      throw new Error('Network response was not ok.');
+      throw new Error('Ошибка сервера');
     })
     .then((data) => {
       const { contents } = data;
       return parsingFunc(contents);
     })
     .then((rssData) => {
-      const curFeeds = state.rssData;
-      // merge obj
-      watchedState.rssData = { ...curFeeds, ...rssData };
+      const curData = state.rssData;
+      const oldPosts = curData.postItems;
+      const newPosts = rssData.postItems;
+      const oldFeeds = curData.feeds;
+      const newFeeds = rssData.feeds;
+      console.log(rssData, _.isEqual(rssData, curData));
+
+      if (!_.isEqual(oldPosts, newPosts)) {
+        const posts = _.difference(newPosts, oldPosts);
+        watchedState.rssData.postItems = posts;
+      }
+      if (!_.isEqual(oldFeeds, newFeeds)) {
+        const feeds = _.difference(newFeeds, oldFeeds);
+        watchedState.rssData.feeds = feeds;
+      }
+
+      setTimeout(() => rssGetter(link), 5000);
     })
     .catch((err) => {
       console.log(err);
     });
 };
+
+// const f = () => console.log('hey!');
+// console.log('before timeout');
+// setTimeout(f, 1000);
+// console.log('after timeout');
 
 const app = () => {
   setLocale({

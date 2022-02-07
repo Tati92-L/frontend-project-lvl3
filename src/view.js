@@ -1,7 +1,6 @@
 /* eslint-disable quote-props */
 import onChange from 'on-change';
 import getMessage from './getMessage.js';
-// import parsingFunc from './parser.js';
 
 const feedsRender = (state) => {
   const feedUl = document.createElement('ul');
@@ -105,9 +104,10 @@ const onChangeState = (state) => onChange(state, (path, value) => {
   console.log('--: ', path, value);
   if (path === 'registrationForm') {
     handleFeedback({ processState: value.processState, key: value.mesagges });
-  } else if (path === 'rssData') {
-    feedsRender(value.feeds);
-    postsRender(value.postItems);
+  } else if (path === 'rssData.feeds') {
+    feedsRender(value);
+  } else if (path === 'rssData.postItems') {
+    postsRender(value);
   }
 });
 
