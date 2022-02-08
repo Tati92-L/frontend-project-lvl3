@@ -118,9 +118,11 @@ const app = () => {
     value: string().url().nullable(),
   });
 
-  const formEl = document.querySelector('.rss-form');
+  const elem = {
+    form: document.querySelector('form'),
+  };
 
-  formEl.addEventListener('submit', (e) => {
+  elem.form.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const value = formData.get('url');
@@ -131,7 +133,7 @@ const app = () => {
         watchedState.results.push(value);
         rssGetter(value);
         watchedState.registrationForm = { mesagges: 'success', processState: 'sent' };
-        formEl.reset();
+        elem.form.reset();
       } catch (err) {
         const [mesagges] = err.errors;
         watchedState.registrationForm = { mesagges, processState: 'error' };
