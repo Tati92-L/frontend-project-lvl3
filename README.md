@@ -5,5 +5,6 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
 
 ###Vescel link
-[![Vercel](https://frontend-project-lvl3-bay-one.vercel.app.svg)](https://frontend-project-lvl3-bay-one.vercel.app)
+[![Vercel]
+https://frontend-project-lvl3-bay-one.vercel.app
 

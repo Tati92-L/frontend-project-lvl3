@@ -43,26 +43,38 @@ const postsRender = (state) => {
   }
 
   postsList.classList.add('list-group');
-  state.forEach(({ postTitle, postLink }) => {
+  state.forEach(({ postTitle, postLink }, i) => {
     const postLi = document.createElement('li');
     postLi.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
     const postHref = document.createElement('a');
     postHref.setAttribute('href', postLink);
     postHref.setAttribute('rel', 'noopener noreferrer');
     postHref.setAttribute('target', '_blank');
+    postHref.setAttribute('data-id', i);
     postHref.classList.add('fw-bold', 'link-main');
     postHref.textContent = postTitle;
     const postButton = document.createElement('button');
     postButton.classList.add('btn', 'btn-outline-primary', 'btn-sm');
     postButton.setAttribute('type', 'button');
-    postButton.setAttribute('type', 'button');
+    postButton.setAttribute('data-bs-toggle', 'modal');
+    postButton.setAttribute('data-id', i);
+    postButton.setAttribute('data-bs-target', '#modal');
     postButton.textContent = 'Просмотр';
     postLi.append(postHref);
     postLi.append(postButton);
     postsList.append(postLi);
-
     divPosts.append(postsList);
   });
+};
+
+const modalWindow = (post) => {
+  const { postTitle, postDescription, postLink } = post;
+  const buttonTitle = document.querySelector('.modal-title');
+  buttonTitle.textContent = postTitle;
+  const buttonDescription = document.querySelector('.modal-body');
+  buttonDescription.textContent = postDescription;
+  const buttonLink = document.querySelector('.full-article');
+  buttonLink.setAttribute('href', postLink);
 };
 
 const handleErrors = (error) => {
@@ -108,6 +120,8 @@ const onChangeState = (state) => onChange(state, (path, value) => {
     feedsRender(value);
   } else if (path === 'rssData.postItems') {
     postsRender(value);
+  } else if (path === 'popup') {
+    modalWindow(value);
   }
 });
 
