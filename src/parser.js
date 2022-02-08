@@ -4,7 +4,7 @@ const parsingFunc = (string) => {
   const doc = parser.parseFromString(string, 'application/xml');
   const parseError = doc.querySelector('parsererror');
   if (parseError) {
-    const error = new Error('Parser Error');
+    const error = new Error('Ресурс не содержит валидный RSS');
     throw error;
   }
 

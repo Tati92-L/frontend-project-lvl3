@@ -118,15 +118,6 @@ const app = () => {
     value: string().url().nullable(),
   });
 
-  const inputEl = document.getElementById('url-input');
-  inputEl.focus();
-
-  // const watchedState = onChange(state, (path, value) => {
-  //   if (path === 'registrationForm') {
-  //     handleFeedback({ processState: value.processState, key: value.mesagges });
-  //   }
-  // });
-
   const formEl = document.querySelector('.rss-form');
 
   formEl.addEventListener('submit', (e) => {
