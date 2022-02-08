@@ -1,7 +1,7 @@
-import i18n from 'i18next';
+import i18next from 'i18next';
 
-const i18nInstance = i18n.createInstance();
-i18nInstance.init({
+const i18nextInstance = i18next.createInstance();
+i18nextInstance.init({
   lng: 'ru',
   debug: false,
   resources: {
@@ -11,11 +11,13 @@ i18nInstance.init({
         url: 'Ссылка должна быть валидным URL',
         success: 'RSS успешно загружен',
         network: 'Ошибка сети',
+        empty: 'Не должно быть пустым',
+        watchLink: 'Просмотр',
       },
     },
   },
 });
 
-const getMessage = (key) => i18nInstance.t(key);
+const getMessage = (key) => i18nextInstance.t(key);
 
 export default getMessage;

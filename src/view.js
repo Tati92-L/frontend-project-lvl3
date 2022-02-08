@@ -99,11 +99,11 @@ const handleFeedback = ({ processState, key }) => {
   switch (processState) {
     case 'sent':
       handleErrors(false);
-      pEl.classList.add('text-success', 'feedback');
+      pEl.classList.add('text-success', 'feedback', 'm-0', 'position-absolute');
       break;
     case 'error':
       handleErrors(true);
-      pEl.classList.add('text-danger', 'feedback');
+      pEl.classList.add('text-danger', 'feedback', 'm-0', 'position-absolute');
       break;
     default:
       throw new Error('Неизвестная ошибка');
@@ -112,10 +112,9 @@ const handleFeedback = ({ processState, key }) => {
   cardEl.append(pEl);
 };
 
-const onChangeState = (state) => onChange(state, (path, value) => {
-  console.log('--: ', path, value);
+const onChangeState = (i18nextInstance, state) => onChange(state, (path, value) => {
   if (path === 'registrationForm') {
-    handleFeedback({ processState: value.processState, key: value.mesagges });
+    handleFeedback({ processState: value.processState, key: value.mesagges }, i18nextInstance);
   } else if (path === 'rssData.feeds') {
     feedsRender(value);
   } else if (path === 'rssData.postItems') {

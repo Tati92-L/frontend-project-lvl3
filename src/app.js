@@ -18,15 +18,6 @@ const state = {
 };
 const watchedState = onChangeState(state);
 
-// const postsDif = (oldPosts, newPosts) => {
-//   const tryDiff = _.difference(newPosts, oldPosts);
-//   const changes = newPosts
-//     .filter((newPost) => oldPosts
-//       .filter((oldPost) => !_.isEqual(oldPost, newPost)));
-//   console.log('c&d', tryDiff, '\nc \n', changes);
-//   return changes;
-// };
-
 const getProxyUrl = (url) => {
   const corsProxyUrl = new URL('/get', 'https://hexlet-allorigins.herokuapp.com');
   corsProxyUrl.searchParams.set('disableCache', 'true');
@@ -89,7 +80,6 @@ const rssGetter = (link) => {
       const newPosts = rssData.postItems;
       const oldFeeds = curData.feeds;
       const newFeeds = rssData.feeds;
-      console.log(rssData, _.isEqual(rssData, curData));
 
       if (!_.isEqual(oldPosts, newPosts)) {
         const posts = _.difference(newPosts, oldPosts);
