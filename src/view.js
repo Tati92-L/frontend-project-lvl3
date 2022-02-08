@@ -1,6 +1,6 @@
 /* eslint-disable quote-props */
 import onChange from 'on-change';
-import { getMessage, i18nextInstance } from './getMessage.js';
+import getMessage from './getMessage.js';
 
 const feedsRender = (state) => {
   const feedUl = document.createElement('ul');
@@ -114,7 +114,7 @@ const handleFeedback = ({ processState, key }) => {
 
 const onChangeState = (state) => onChange(state, (path, value) => {
   if (path === 'registrationForm') {
-    handleFeedback({ processState: value.processState, key: value.mesagges }, i18nextInstance);
+    handleFeedback({ processState: value.processState, key: value.mesagges });
   } else if (path === 'rssData.feeds') {
     feedsRender(value);
   } else if (path === 'rssData.postItems') {
