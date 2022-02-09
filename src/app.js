@@ -85,7 +85,8 @@ const rssGetter = (link, watchedState, state) => {
       watchedState.registrationForm = { mesagges: 'success', processState: 'sent' };
     })
     .catch((err) => {
-      watchedState.registrationForm = { mesagges: err.message, processState: 'error' };
+      const error = err.message === 'rssError' ? 'rssError' : 'network';
+      watchedState.registrationForm = { mesagges: error, processState: 'error' };
     });
 };
 
