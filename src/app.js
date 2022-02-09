@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { setLocale, object, string } from 'yup';
 import axios from 'axios';
 import _ from 'lodash';
@@ -79,11 +80,12 @@ const rssGetter = (link, watchedState, state) => {
         // eslint-disable-next-line no-param-reassign
         watchedState.rssData.feeds = feeds;
       }
-
       setTimeout(() => rssGetter(link), 5000);
+      watchedState.results.push(link);
+      watchedState.registrationForm = { mesagges: 'success', processState: 'sent' };
     })
     .catch((err) => {
-      console.log(err);
+      watchedState.registrationForm = { mesagges: err.message, processState: 'error' };
     });
 };
 
@@ -122,14 +124,12 @@ const app = () => {
     if (!state.results.includes(value)) {
       try {
         userSchema.validateSync({ value });
-        watchedState.results.push(value);
-        rssGetter(value, watchedState, state);
-        watchedState.registrationForm = { mesagges: 'success', processState: 'sent' };
-        elem.form.reset();
       } catch (err) {
         const [mesagges] = err.errors;
         watchedState.registrationForm = { mesagges, processState: 'error' };
       }
+      rssGetter(value, watchedState, state);
+      elem.form.reset();
     } else {
       watchedState.registrationForm = { mesagges: 'repeatError', processState: 'error' };
     }

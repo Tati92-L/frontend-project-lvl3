@@ -14,6 +14,7 @@ const getMessage = (key) => {
           network: 'Ошибка сети',
           empty: 'Не должно быть пустым',
           watchLink: 'Просмотр',
+          rssError: 'Ресурс не содержит валидный RSS',
         },
       },
     },
