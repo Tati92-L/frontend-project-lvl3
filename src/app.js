@@ -56,7 +56,7 @@ const rssGetter = (link, watchedState, state) => {
     .get(getProxyUrl(link))
     .then((response) => {
       if (response.status === 200) return response.data;
-      throw new Error('Ошибка сервера');
+      throw new Error('network');
     })
     .then((data) => {
       const { contents } = data;
