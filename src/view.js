@@ -115,8 +115,8 @@ const handleLoad = (state) => {
   const inputEl = document.getElementById('url-input');
   const btn = document.getElementById('button');
   if (state === 'load') {
-    inputEl.setAttribute('disabled', 'disabled');
-    btn.setAttribute('disabled', 'disabled');
+    inputEl.setAttribute('readonly', '');
+    btn.setAttribute('disabled', '');
   } else {
     inputEl.removeAttribute('disabled');
     btn.removeAttribute('disabled');
