@@ -16,6 +16,7 @@ const state = {
   },
   popup: {},
 };
+
 const watchedState = onChangeState(state);
 
 const getProxyUrl = (url) => {
@@ -105,7 +106,7 @@ const app = () => {
     },
   });
   const userSchema = object().shape({
-    value: string().url().nullable(),
+    value: string().required('empty').url().nullable(),
   });
 
   const elem = {
