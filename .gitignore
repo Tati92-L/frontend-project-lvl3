@@ -2,4 +2,6 @@
 *.log
 assets
 dist
+__fixtures__
+__tests__
 .DS_Store

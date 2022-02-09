@@ -1,4 +1,3 @@
-/* eslint-disable quote-props */
 import onChange from 'on-change';
 import getMessage from './getMessage.js';
 
