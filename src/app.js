@@ -4,21 +4,6 @@ import _ from 'lodash';
 import parsingFunc from './parser.js';
 import onChangeState from './view.js';
 
-const state = {
-  registrationForm: {
-    mesagges: null,
-    processState: 'filling',
-  },
-  results: [],
-  rssData: {
-    feeds: [],
-    postItems: [],
-  },
-  popup: {},
-};
-
-const watchedState = onChangeState(state);
-
 const getProxyUrl = (url) => {
   const corsProxyUrl = new URL('/get', 'https://hexlet-allorigins.herokuapp.com');
   corsProxyUrl.searchParams.set('disableCache', 'true');
@@ -26,13 +11,14 @@ const getProxyUrl = (url) => {
   return corsProxyUrl.toString();
 };
 
-const linkButtons = () => {
+const linkButtons = (watchedState, state) => {
   const modalButton = document.querySelectorAll('.btn-outline-primary');
   modalButton.forEach((button) => {
     button.addEventListener('click', (e) => {
       e.preventDefault();
       const { id } = e.target.dataset;
       const post = state.rssData.postItems[id];
+      // eslint-disable-next-line no-param-reassign
       watchedState.popup = post;
       const modalBody = document.querySelector('.min-vh-100');
       modalBody.classList.add('modal-open');
@@ -64,7 +50,7 @@ const linkButtons = () => {
   });
 };
 
-const rssGetter = (link) => {
+const rssGetter = (link, watchedState, state) => {
   axios
     .get(getProxyUrl(link))
     .then((response) => {
@@ -84,11 +70,13 @@ const rssGetter = (link) => {
 
       if (!_.isEqual(oldPosts, newPosts)) {
         const posts = _.difference(newPosts, oldPosts);
+        // eslint-disable-next-line no-param-reassign
         watchedState.rssData.postItems = posts;
-        linkButtons();
+        linkButtons(watchedState, state);
       }
       if (!_.isEqual(oldFeeds, newFeeds)) {
         const feeds = _.difference(newFeeds, oldFeeds);
+        // eslint-disable-next-line no-param-reassign
         watchedState.rssData.feeds = feeds;
       }
 
@@ -108,6 +96,19 @@ const app = () => {
   const userSchema = object().shape({
     value: string().required('empty').url().nullable(),
   });
+  const state = {
+    registrationForm: {
+      mesagges: null,
+      processState: 'filling',
+    },
+    results: [],
+    rssData: {
+      feeds: [],
+      postItems: [],
+    },
+    popup: {},
+  };
+  const watchedState = onChangeState(state);
 
   const elem = {
     form: document.querySelector('form'),
@@ -122,7 +123,7 @@ const app = () => {
       try {
         userSchema.validateSync({ value });
         watchedState.results.push(value);
-        rssGetter(value);
+        rssGetter(value, watchedState, state);
         watchedState.registrationForm = { mesagges: 'success', processState: 'sent' };
         elem.form.reset();
       } catch (err) {
