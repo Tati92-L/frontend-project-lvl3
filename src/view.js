@@ -118,7 +118,7 @@ const handleLoad = (state) => {
     inputEl.setAttribute('readonly', '');
     btn.setAttribute('disabled', '');
   } else {
-    inputEl.removeAttribute('disabled');
+    inputEl.removeAttribute('readonly');
     btn.removeAttribute('disabled');
   }
 };

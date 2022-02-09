@@ -132,10 +132,10 @@ const app = () => {
       }
       rssGetter(value, watchedState, state);
       watchedState.registrationForm.processState = 'load';
-      elem.form.reset();
     } else {
       watchedState.registrationForm = { mesagges: 'repeatError', processState: 'error' };
     }
+    elem.form.reset();
   });
 };
 
