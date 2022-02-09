@@ -111,6 +111,18 @@ const handleFeedback = ({ processState, key }) => {
   cardEl.append(pEl);
 };
 
+const handleLoad = (state) => {
+  const inputEl = document.getElementById('url-input');
+  const btn = document.getElementById('button');
+  if (state === 'load') {
+    inputEl.setAttribute('disabled');
+    btn.setAttribute('disabled');
+  } else {
+    inputEl.removeAttribute('disabled');
+    btn.removeAttribute('disabled');
+  }
+};
+
 const onChangeState = (state) => onChange(state, (path, value) => {
   if (path === 'registrationForm') {
     handleFeedback({ processState: value.processState, key: value.mesagges });
@@ -120,6 +132,8 @@ const onChangeState = (state) => onChange(state, (path, value) => {
     postsRender(value);
   } else if (path === 'popup') {
     modalWindow(value);
+  } else if (path === 'registrationForm.processState') {
+    handleLoad(value);
   }
 });
 
