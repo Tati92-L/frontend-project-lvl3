@@ -81,7 +81,6 @@ const rssGetter = (link, watchedState, state) => {
         watchedState.rssData.feeds = feeds;
       }
       setTimeout(() => rssGetter(link), 5000);
-      watchedState.registrationForm.processState = 'filling';
       watchedState.results.push(link);
       watchedState.registrationForm = { mesagges: 'success', processState: 'sent' };
     })
