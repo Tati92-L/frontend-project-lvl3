@@ -134,6 +134,7 @@ const app = () => {
     } else {
       watchedState.registrationForm = { mesagges: 'repeatError', processState: 'error' };
     }
+    watchedState.registrationForm.processState = 'filling';
     elem.form.reset();
   });
 };
