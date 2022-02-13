@@ -14,6 +14,8 @@ const getProxyUrl = (url) => {
 
 const linkButtons = (watchedState, state) => {
   const modalButton = document.querySelectorAll('.btn-outline-primary');
+  const backdrop = document.createElement('div');
+  backdrop.classList.add('modal-backdrop', 'fade', 'show');
   modalButton.forEach((button) => {
     button.addEventListener('click', (e) => {
       e.preventDefault();
@@ -21,30 +23,27 @@ const linkButtons = (watchedState, state) => {
       const post = state.rssData.postItems[id];
       // eslint-disable-next-line no-param-reassign
       watchedState.popup = post;
-      const modalBody = document.querySelector('.min-vh-100');
+      const modalBody = document.querySelector('body');
       modalBody.classList.add('modal-open');
-      modalBody.setAttribute('style', 'overflow: hidden; padding-right: 0px');
-      const modalPopup = document.querySelector('.fade');
+      modalBody.style = 'overflow: hidden; padding-right: 0px';
+      const modalPopup = document.querySelector('.modal');
       modalPopup.classList.add('show');
-      modalPopup.removeAttribute('style');
-      modalPopup.setAttribute('style', 'display: block');
+      modalPopup.style.display = 'block';
       modalPopup.removeAttribute('aria-hidden');
       modalPopup.setAttribute('aria-modal', 'true');
-      modalPopup.setAttribute('role', 'dialog');
       button.previousSibling.classList.remove('fw-bold', 'fw-main');
       button.previousSibling.classList.add('fw-normal', 'fw-secondary');
+      modalBody.append(backdrop);
       const closeButtons = document.querySelectorAll('.btn-closeInfo');
       closeButtons.forEach((buttonClose) => {
         buttonClose.addEventListener('click', () => {
           modalBody.classList.remove('modal-open');
-          modalBody.removeAttribute('style');
-          modalBody.setAttribute('style', '""');
+          modalBody.style = '';
+          backdrop.remove();
           modalPopup.classList.remove('show');
-          modalPopup.removeAttribute('style');
-          modalPopup.setAttribute('style', 'display: none');
+          modalPopup.style.display = 'none';
           modalPopup.removeAttribute('aria-modal');
           modalPopup.setAttribute('aria-hidden', 'true');
-          modalPopup.removeAttribute('role');
         });
       });
     });
@@ -63,7 +62,6 @@ const rssGetter = (link, watchedState, state) => {
       return parsingFunc(contents);
     })
     .then((rssData) => {
-      console.log('hi!');
       const curData = state.rssData;
       const oldPosts = curData.postItems;
       const newPosts = rssData.postItems;
