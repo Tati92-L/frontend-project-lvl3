@@ -86,7 +86,6 @@ const handleErrors = (error) => {
 };
 
 const handleLoad = (state) => {
-  console.log('!!! ', state);
   const inputEl = document.getElementById('url-input');
   const btn = document.getElementById('button');
   if (state === 'load') {

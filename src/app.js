@@ -63,6 +63,7 @@ const rssGetter = (link, watchedState, state) => {
       return parsingFunc(contents);
     })
     .then((rssData) => {
+      console.log('hi!');
       const curData = state.rssData;
       const oldPosts = curData.postItems;
       const newPosts = rssData.postItems;
@@ -82,7 +83,7 @@ const rssGetter = (link, watchedState, state) => {
       }
       watchedState.results.push(link);
       watchedState.registrationForm = { mesagges: 'success', processState: 'sent' };
-      setTimeout(() => rssGetter(link), 5000);
+      setTimeout(() => rssGetter(link, watchedState, state), 5000);
     })
     .catch((err) => {
       const error = err.message === 'rssError' ? 'rssError' : 'network';

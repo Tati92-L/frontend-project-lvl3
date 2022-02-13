@@ -16,7 +16,7 @@ const parsingFunc = (string) => {
       const postDescription = post.querySelector('description').textContent;
       const postLink = post.querySelector('link').textContent;
       const postInfo = { postTitle, postDescription, postLink };
-      postItems.unshift(postInfo);
+      postItems.push(postInfo);
     });
     return { feeds, postItems };
   }
