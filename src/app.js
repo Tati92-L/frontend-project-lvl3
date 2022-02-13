@@ -122,6 +122,7 @@ const app = () => {
     const formData = new FormData(e.target);
     const value = formData.get('url');
 
+    watchedState.registrationForm.processState = 'load';
     if (!state.results.includes(value)) {
       try {
         userSchema.validateSync({ value });
@@ -130,7 +131,6 @@ const app = () => {
         watchedState.registrationForm = { mesagges, processState: 'error' };
       }
       rssGetter(value, watchedState, state);
-      watchedState.registrationForm.processState = 'load';
     } else {
       watchedState.registrationForm = { mesagges: 'repeatError', processState: 'error' };
     }
