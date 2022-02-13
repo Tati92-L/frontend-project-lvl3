@@ -39,7 +39,7 @@ const linkButtons = (watchedState, state) => {
           modalBody.classList.remove('modal-open');
           modalBody.removeAttribute('style');
           modalBody.setAttribute('style', '""');
-          modalPopup.classList.add('show');
+          modalPopup.classList.remove('show');
           modalPopup.removeAttribute('style');
           modalPopup.setAttribute('style', 'display: none');
           modalPopup.removeAttribute('aria-modal');
