@@ -85,6 +85,19 @@ const handleErrors = (error) => {
   inputEl.focus();
 };
 
+const handleLoad = (state) => {
+  console.log('!!! ', state);
+  const inputEl = document.getElementById('url-input');
+  const btn = document.getElementById('button');
+  if (state === 'load') {
+    inputEl.setAttribute('readonly', '');
+    btn.setAttribute('disabled', '');
+  } else {
+    inputEl.removeAttribute('readonly');
+    btn.removeAttribute('disabled');
+  }
+};
+
 const handleFeedback = ({ processState, key }) => {
   const cardEl = document.querySelector('.card-main');
   let pEl;
@@ -109,18 +122,7 @@ const handleFeedback = ({ processState, key }) => {
   }
   pEl.textContent = getMessage(key);
   cardEl.append(pEl);
-};
-
-const handleLoad = (state) => {
-  const inputEl = document.getElementById('url-input');
-  const btn = document.getElementById('button');
-  if (state === 'load') {
-    inputEl.setAttribute('readonly', '');
-    btn.setAttribute('disabled', '');
-  } else {
-    inputEl.removeAttribute('readonly');
-    btn.removeAttribute('disabled');
-  }
+  handleLoad(processState);
 };
 
 const onChangeState = (state) => onChange(state, (path, value) => {

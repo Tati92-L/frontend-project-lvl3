@@ -80,9 +80,9 @@ const rssGetter = (link, watchedState, state) => {
         // eslint-disable-next-line no-param-reassign
         watchedState.rssData.feeds = feeds;
       }
-      setTimeout(() => rssGetter(link), 5000);
       watchedState.results.push(link);
       watchedState.registrationForm = { mesagges: 'success', processState: 'sent' };
+      setTimeout(() => rssGetter(link), 5000);
     })
     .catch((err) => {
       const error = err.message === 'rssError' ? 'rssError' : 'network';
@@ -119,10 +119,10 @@ const app = () => {
 
   elem.form.addEventListener('submit', (e) => {
     e.preventDefault();
+    watchedState.registrationForm.processState = 'load';
     const formData = new FormData(e.target);
     const value = formData.get('url');
 
-    watchedState.registrationForm.processState = 'load';
     if (!state.results.includes(value)) {
       try {
         userSchema.validateSync({ value });
@@ -134,7 +134,6 @@ const app = () => {
     } else {
       watchedState.registrationForm = { mesagges: 'repeatError', processState: 'error' };
     }
-    watchedState.registrationForm.processState = 'filling';
     elem.form.reset();
   });
 };
